@@ -3,6 +3,9 @@ import { ApiBearerAuth, ApiBody, ApiTags, ApiParam } from '@nestjs/swagger';
 import { StaffService } from '../services/staff.service';
 import { CreateStaffDto, UpdateStaffDto } from '../DTO/staff.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles } from '../../common/decorators/roles.decorator';
+import { UserRole } from '../../common/auth/roles.enum';
 
 @Controller('staff')
 @ApiTags('/staff')
@@ -12,7 +15,8 @@ export class StaffController {
     ){}
 
     @ApiBearerAuth('JWT')
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.ADMIN, UserRole.PRINCIPAL)
     @Post()
     @ApiBody({ type: CreateStaffDto })
     async createStaff(@Body()req: CreateStaffDto){
@@ -21,7 +25,8 @@ export class StaffController {
     }
 
     @ApiBearerAuth('JWT')
-    @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.ADMIN, UserRole.PRINCIPAL, UserRole.CLERK)
     @Get()
     async getAllStaff(){
         const response = await this.staffService.getAllStaff();
@@ -29,7 +34,8 @@ export class StaffController {
     }
 
     @ApiBearerAuth('JWT')
-    //@UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.ADMIN, UserRole.PRINCIPAL, UserRole.CLERK)
     @Get(':id')
     @ApiParam({ name: 'id', description: 'Staff ID' })
     async getStaffById(@Param('id') id: string){
@@ -38,7 +44,8 @@ export class StaffController {
     }
 
     @ApiBearerAuth('JWT')
-    //@UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRole.ADMIN, UserRole.PRINCIPAL)
     @Patch(':id')
     @ApiParam({ name: 'id', description: 'Staff ID' })
     @ApiBody({ type: UpdateStaffDto })

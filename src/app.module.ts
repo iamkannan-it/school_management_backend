@@ -3,6 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthServiceModule } from './auth-service/auth-service.module';
 import { StaffModule } from './staff/staff.module';
+import { ClassModule } from './class/class.module';
+import { StudentModule } from './student/student.module';
+import { ParentModule } from './parent/parent.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { GradeModule } from './grade/grade.module';
+import { FeeModule } from './fee/fee.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -23,7 +29,15 @@ import { MongooseModule } from '@nestjs/mongoose';
       },
       inject: [ConfigService],
     }),
-    AuthServiceModule, StaffModule],
+    AuthServiceModule,
+    StaffModule,
+    ClassModule,
+    StudentModule,
+    ParentModule,
+    AttendanceModule,
+    GradeModule,
+    FeeModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -114,7 +114,7 @@ export class Staff {
   username!: string;
 
   @Prop({type: String})
-  passwordHash!: string;
+  password!: string;
 
   @Prop({ default: true })
   isActive!: boolean;

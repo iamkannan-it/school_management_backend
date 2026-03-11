@@ -30,13 +30,13 @@ export class AuthServiceService {
             throw new UnauthorizedException('Staff account is inactive');
         }
 
-        const isPasswordValid = await bcrypt.compare(req.password, staff.passwordHash);
+        const isPasswordValid = await bcrypt.compare(req.password, staff.password);
 
         if (!isPasswordValid) {
             throw new UnauthorizedException('Invalid staffId or password');
         }
 
-        const { passwordHash, ...staffData } = staff.toObject();
+        const { password, ...staffData } = staff.toObject();
 
         const payload = {
             staffId: staff.staffId,
